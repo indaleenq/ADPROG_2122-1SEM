@@ -1,23 +1,56 @@
 ﻿using System;
 
-namespace CSharpBasics
+namespace TiimeKeeping
 {
     class Program
     {
         static void Main(string[] args)
         {
-            Console.Write("Hello, please type your name: ");
-            //string name; // variable declaration
-            string name = Console.ReadLine(); // variable initialization
-            Console.WriteLine($"Welcome {name}");
+            Console.WriteLine("Employee Time Keeping System");
+            Console.WriteLine($"Today's Date:  {DateTime.Today.ToShortDateString()}");
 
-            Console.Write("Now, please enter your age: ");
-            //string age = Console.ReadLine();
-            //int ageNumber = Convert.ToInt32(age);
-            var age = Convert.ToInt32(Console.ReadLine());
+            Console.Write("To log your time-in enter your employee id:");
+            string employeeId = Console.ReadLine();
 
-            var newAge = age - 2;
-            Console.WriteLine($"your new age is {newAge}");
+
+            //Date and Time --> DateTime
+            //Time only --> TimeSpan
+
+            TimeSpan timeIn = new TimeSpan(8,0,0);
+
+            Console.WriteLine($"Your login time is recorded: {timeIn}");
+
+            Console.WriteLine("*********************************");
+            Console.Write("To log your time-out enter your employee id:");
+            employeeId = Console.ReadLine();
+
+            TimeSpan timeOut = new TimeSpan(17, 30, 0);
+            Console.WriteLine($"Your logout time is recorded: {timeOut}");
+
+            TimeSpan lunchBreakDuration = new TimeSpan(1, 0, 0);
+            TimeSpan totalHours = (timeOut - timeIn) - lunchBreakDuration;
+
+            Console.WriteLine($"Your total hours worked is: {totalHours}");
+
+            TimeSpan regularHoursStart = new TimeSpan(8, 0, 0);
+            TimeSpan regularHoursEnd = new TimeSpan(17, 0, 0);
+            TimeSpan lateIn = new TimeSpan(0,0,0);
+            TimeSpan earlyOut = new TimeSpan(0,0,0);
+
+            if (timeIn > regularHoursStart) 
+            {
+                lateIn = timeIn - regularHoursStart;
+            }
+
+            if (timeOut < regularHoursEnd)
+            {
+                 earlyOut = timeOut - regularHoursEnd;
+            }
+
+            TimeSpan totalRegularHours = totalHours - (lateIn + earlyOut);
+
+            Console.WriteLine($"Hi employee {employeeId}");
+            Console.WriteLine($"Your total regular hours worked is: {totalRegularHours}");
         }
     }
 }
